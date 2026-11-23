@@ -1,0 +1,585 @@
+/*
+Theme Name:        AI First SaaS
+Theme URI:         https://aifirstsaas.com
+Author:            aifirstsaas.com
+Author URI:        https://aifirstsaas.com
+Description:       Classic PHP theme for aifirstsaas.com. Provides the chrome (header, mobile drawer, footer, typography and color tokens) around the AI First SaaS Directory plugin, which ships every content template. Design tokens match the canonical design file so plugin templates render without color overrides.
+Version:           1.0.0
+Requires at least: 6.4
+Tested up to:      6.6
+Requires PHP:      8.1
+License:           GPL-2.0-or-later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       aifirstsaas
+Tags:              custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, blog, directory
+*/
+
+/* -------------------------------------------------------------------------- *
+ * 1. Design tokens
+ *
+ * Mirror the canonical design file's `rootStyle`. The plugin reads the
+ * `--aif-*` family; the design's inline styles reference the bare
+ * `--bg / --bg2 / --card / --text / --sub / --border / --accent` names.
+ * Both sets are defined so plugin templates and the theme chrome share a
+ * single palette.
+ * -------------------------------------------------------------------------- */
+:root {
+	/* Bare names (design file). */
+	--bg:     #FAFAF8;
+	--bg2:    #F3F1EC;
+	--card:   #FFFFFF;
+	--text:   #1A1A1A;
+	--sub:    #6B6B65;
+	--border: #E8E6E0;
+	--accent: #2563EB;
+
+	/* --aif-* family (plugin). Mirrors the bare names. */
+	--aif-bg:          #FAFAF8;
+	--aif-bg2:         #F3F1EC;
+	--aif-card:        #FFFFFF;
+	--aif-text:        #1A1A1A;
+	--aif-sub:         #6B6B65;
+	--aif-border:      #E8E6E0;
+	--aif-accent:      #2563EB;
+	--aif-accent-weak: #DBEAFE;
+	--aif-good:        #16A34A;
+	--aif-warn:        #F59E0B;
+	--aif-bad:         #DC2626;
+
+	--aif-radius:      12px;
+	--aif-radius-sm:   8px;
+	--aif-radius-pill: 20px;
+	--aif-maxw:        1440px;
+
+	--aif-font:        'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--aif-size-base:   14.5px;
+	--aif-line-base:   1.55;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--bg:     #171715;
+		--bg2:    #1F1F1C;
+		--card:   #1E1E1B;
+		--text:   #F3F1EC;
+		--sub:    #A6A399;
+		--border: #33322D;
+		--accent: #2563EB;
+
+		--aif-bg:          #171715;
+		--aif-bg2:         #1F1F1C;
+		--aif-card:        #1E1E1B;
+		--aif-text:        #F3F1EC;
+		--aif-sub:         #A6A399;
+		--aif-border:      #33322D;
+		--aif-accent:      #2563EB;
+		--aif-accent-weak: #1E2A5C;
+	}
+}
+
+:root[data-theme="dark"] {
+	--bg:     #171715;
+	--bg2:    #1F1F1C;
+	--card:   #1E1E1B;
+	--text:   #F3F1EC;
+	--sub:    #A6A399;
+	--border: #33322D;
+	--accent: #2563EB;
+
+	--aif-bg:          #171715;
+	--aif-bg2:         #1F1F1C;
+	--aif-card:        #1E1E1B;
+	--aif-text:        #F3F1EC;
+	--aif-sub:         #A6A399;
+	--aif-border:      #33322D;
+	--aif-accent:      #2563EB;
+	--aif-accent-weak: #1E2A5C;
+}
+
+/* -------------------------------------------------------------------------- *
+ * 2. Base typography & reset
+ * -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--aif-font);
+	font-size: var(--aif-size-base);
+	line-height: var(--aif-line-base);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img, svg, video { max-width: 100%; height: auto; }
+
+button {
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+[x-cloak] { display: none !important; }
+
+.aifirst-sr {
+	position: absolute !important;
+	width: 1px; height: 1px;
+	padding: 0; margin: -1px;
+	overflow: hidden; clip: rect(0,0,0,0);
+	white-space: nowrap; border: 0;
+}
+
+.aifirst-skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	background: var(--card);
+	color: var(--text);
+	padding: 10px 14px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	z-index: 1000;
+}
+.aifirst-skip-link:focus { left: 16px; top: 16px; }
+
+/* -------------------------------------------------------------------------- *
+ * 3. Topbar / header
+ * -------------------------------------------------------------------------- */
+.aifirst-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: var(--bg);
+	border-bottom: 1px solid var(--border);
+}
+
+.aifirst-topbar-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px 32px;
+	max-width: 1440px;
+	margin: 0 auto;
+	flex-wrap: wrap;
+}
+
+.aifirst-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 0 0 auto;
+}
+.aifirst-brand a {
+	color: var(--text);
+	font-weight: 700;
+	font-size: 18px;
+	letter-spacing: -0.02em;
+	text-decoration: none;
+}
+.aifirst-brand a:hover { text-decoration: none; }
+.aifirst-brand .custom-logo {
+	max-height: 32px;
+	width: auto;
+}
+
+.aifirst-topbar-right {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	flex-wrap: wrap;
+}
+
+/* Desktop nav. */
+.aifirst-desktop-nav { display: flex; }
+.aifirst-desktop-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	flex-wrap: wrap;
+}
+.aifirst-desktop-nav a {
+	color: var(--text);
+	font-size: 13.5px;
+	font-weight: 500;
+	text-decoration: none;
+	padding: 4px 2px;
+}
+.aifirst-desktop-nav a:hover { color: var(--accent); text-decoration: none; }
+.aifirst-desktop-nav .current-menu-item > a { color: var(--accent); }
+
+/* Search input (desktop only). */
+.aifirst-topbar-search {
+	display: flex;
+	align-items: center;
+	flex: 0 0 auto;
+}
+.aifirst-topbar-search input[type="search"] {
+	width: 280px;
+	padding: 7px 14px;
+	border-radius: 20px;
+	border: 1px solid var(--border);
+	background: var(--bg2);
+	color: var(--text);
+	font-size: 13px;
+	outline: none;
+}
+.aifirst-topbar-search input[type="search"]::placeholder { color: var(--sub); }
+.aifirst-topbar-search input[type="search"]:focus { border-color: var(--accent); }
+
+/* Theme toggle inside the header: strip the plugin's floating positioning. */
+.aifirst-topbar .aifirst-theme-toggle {
+	position: static;
+	top: auto;
+	right: auto;
+	box-shadow: none;
+	padding: 6px 12px;
+	font-size: 12.5px;
+}
+
+/* On any page with the header toggle, hide the plugin's floating one.
+ * The plugin injects its toggle via wp_footer at body level (direct
+ * child); the header one is nested inside <header>, so the `>`
+ * selector only targets the floating pill. */
+body.has-theme-header-toggle > .aifirst-theme-toggle { display: none; }
+
+/* Burger button: hidden on desktop. */
+.aifirst-burger {
+	display: none;
+	width: 38px; height: 34px;
+	border-radius: 9px;
+	border: 1px solid var(--border);
+	background: var(--bg2);
+	color: var(--text);
+	cursor: pointer;
+	font-size: 17px;
+	line-height: 1;
+	align-items: center;
+	justify-content: center;
+}
+.aifirst-burger:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Mobile drawer. */
+.aifirst-drawer {
+	display: none;
+	border-top: 1px solid var(--border);
+	background: var(--bg);
+	max-height: calc(100vh - 64px);
+	overflow: auto;
+}
+.aifirst-drawer-inner {
+	padding: 14px 16px 18px;
+	max-width: 720px;
+	margin: 0 auto;
+}
+.aifirst-drawer-search input[type="search"] {
+	width: 100%;
+	padding: 11px 14px;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+	background: var(--card);
+	color: var(--text);
+	font-size: 15px;
+	outline: none;
+}
+.aifirst-drawer-search input[type="search"]:focus { border-color: var(--accent); }
+
+.aifirst-drawer-nav { margin-top: 14px; }
+.aifirst-drawer-nav ul {
+	list-style: none;
+	margin: 0; padding: 0;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+.aifirst-drawer-nav a {
+	display: flex;
+	align-items: center;
+	padding: 12px 14px;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+	background: var(--bg2);
+	color: var(--text);
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+}
+.aifirst-drawer-nav a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+/* -------------------------------------------------------------------------- *
+ * 4. Main wrap
+ * -------------------------------------------------------------------------- */
+.aifirst-main {
+	min-height: calc(100vh - 220px);
+}
+
+/* On non-plugin screens we provide a container so WP content isn't
+ * flush to the viewport. Plugin screens already wrap in .aifirst-shell
+ * / .aifirst-container so we leave those alone. */
+.aifirst-main > .aifirst-shell { /* plugin owns layout */ }
+.aifirst-main > :not(.aifirst-shell) {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 32px;
+}
+
+.aifirst-page-title {
+	font-size: 30px;
+	font-weight: 800;
+	letter-spacing: -0.015em;
+	margin: 0 0 16px;
+	color: var(--text);
+}
+.aifirst-entry {
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--text);
+}
+.aifirst-entry h1,
+.aifirst-entry h2,
+.aifirst-entry h3,
+.aifirst-entry h4 {
+	color: var(--text);
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+.aifirst-entry h2 { font-size: 22px; margin-top: 32px; }
+.aifirst-entry h3 { font-size: 18px; margin-top: 24px; }
+.aifirst-entry p { margin: 0 0 16px; }
+.aifirst-entry a { color: var(--accent); }
+
+.aifirst-search-form {
+	display: flex;
+	gap: 8px;
+	max-width: 480px;
+	margin-top: 24px;
+}
+.aifirst-search-form input[type="search"] {
+	flex: 1;
+	padding: 11px 14px;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+	background: var(--card);
+	color: var(--text);
+	font-size: 14.5px;
+	outline: none;
+}
+.aifirst-search-form input[type="search"]:focus { border-color: var(--accent); }
+.aifirst-search-form button {
+	padding: 11px 18px;
+	border-radius: 10px;
+	background: var(--accent);
+	color: #fff;
+	border: 1px solid var(--accent);
+	font-weight: 600;
+	cursor: pointer;
+}
+.aifirst-search-form button:hover { filter: brightness(0.95); }
+
+.aifirst-result-item {
+	padding: 16px 0;
+	border-bottom: 1px solid var(--border);
+}
+.aifirst-result-item h2 {
+	font-size: 17px;
+	margin: 0 0 4px;
+}
+.aifirst-result-item h2 a { color: var(--text); }
+.aifirst-result-item h2 a:hover { color: var(--accent); }
+.aifirst-result-meta {
+	font-size: 12.5px;
+	color: var(--sub);
+	margin-bottom: 6px;
+}
+
+.aifirst-no-results {
+	padding: 24px;
+	border: 1px solid var(--border);
+	background: var(--card);
+	border-radius: 12px;
+	color: var(--sub);
+}
+
+/* -------------------------------------------------------------------------- *
+ * 5. Footer
+ * -------------------------------------------------------------------------- */
+.aifirst-site-footer {
+	border-top: 1px solid var(--border);
+	background: var(--bg);
+	margin-top: 48px;
+}
+.aifirst-footer-inner {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 36px 32px 32px;
+}
+
+.aifirst-newsletter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	flex-wrap: wrap;
+	border: 1px solid var(--border);
+	background: var(--bg2);
+	border-radius: 14px;
+	padding: 22px 26px;
+	margin-bottom: 36px;
+}
+.aifirst-newsletter__copy { max-width: 440px; }
+.aifirst-newsletter__title {
+	font-weight: 700;
+	font-size: 15px;
+	color: var(--text);
+}
+.aifirst-newsletter__sub {
+	font-size: 12.5px;
+	color: var(--sub);
+	margin-top: 2px;
+}
+.aifirst-newsletter form {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.aifirst-newsletter input[type="email"] {
+	padding: 9px 12px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--card);
+	color: var(--text);
+	font-size: 13px;
+	min-width: 220px;
+	outline: none;
+}
+.aifirst-newsletter input[type="email"]:focus { border-color: var(--accent); }
+.aifirst-newsletter button {
+	padding: 9px 16px;
+	border-radius: 8px;
+	background: var(--accent);
+	color: #fff;
+	border: none;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+}
+.aifirst-newsletter button:hover { filter: brightness(0.95); }
+.aifirst-newsletter button:disabled { opacity: 0.6; cursor: wait; }
+.aifirst-newsletter__status { font-size: 13px; font-weight: 600; }
+.aifirst-newsletter__status--ok  { color: var(--aif-good); }
+.aifirst-newsletter__status--err { color: var(--aif-bad); }
+
+.aifirst-footer-grid {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr;
+	gap: 24px;
+}
+.aifirst-footer-col .aifirst-footer-heading {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--sub);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	margin: 0 0 10px;
+}
+.aifirst-footer-col ul {
+	list-style: none;
+	margin: 0; padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.aifirst-footer-col ul a {
+	font-size: 13px;
+	color: var(--text);
+	text-decoration: none;
+}
+.aifirst-footer-col ul a:hover { color: var(--accent); }
+.aifirst-footer-brand .aifirst-footer-wordmark {
+	font-weight: 800;
+	font-size: 18px;
+	color: var(--text);
+	margin-bottom: 8px;
+	display: inline-block;
+}
+.aifirst-footer-brand .aifirst-footer-tagline {
+	font-size: 12.5px;
+	color: var(--sub);
+	max-width: 280px;
+	line-height: 1.5;
+}
+
+.aifirst-footer-bottom {
+	border-top: 1px solid var(--border);
+	margin-top: 28px;
+	padding-top: 16px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+.aifirst-copyright { font-size: 12px; color: var(--sub); }
+.aifirst-social {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+.aifirst-social a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px; height: 32px;
+	border-radius: 8px;
+	color: var(--sub);
+	border: 1px solid transparent;
+}
+.aifirst-social a:hover {
+	color: var(--accent);
+	border-color: var(--border);
+}
+.aifirst-social svg { width: 16px; height: 16px; }
+
+/* -------------------------------------------------------------------------- *
+ * 6. Responsive
+ * -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+	.aifirst-topbar-inner { padding: 12px 24px; }
+	.aifirst-desktop-nav,
+	.aifirst-topbar-search { display: none; }
+	.aifirst-burger { display: inline-flex; }
+	.aifirst-drawer { display: block; }
+	.aifirst-footer-inner { padding-left: 24px; padding-right: 24px; }
+	.aifirst-main > :not(.aifirst-shell) { padding: 24px; }
+}
+
+@media (max-width: 767px) {
+	.aifirst-footer-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: 22px 16px;
+	}
+	.aifirst-footer-grid > :first-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+	.aifirst-topbar-inner { padding: 10px 16px; gap: 10px; }
+	.aifirst-footer-inner { padding: 20px 16px 28px; }
+	.aifirst-newsletter { padding: 18px; }
+	.aifirst-newsletter form { width: 100%; }
+	.aifirst-newsletter input[type="email"] { min-width: 0; flex: 1; }
+	.aifirst-footer-grid { grid-template-columns: 1fr; }
+	.aifirst-footer-grid > :first-child { grid-column: 1 / -1; }
+	.aifirst-main > :not(.aifirst-shell) { padding: 16px; }
+	.aifirst-page-title { font-size: 24px; }
+}
