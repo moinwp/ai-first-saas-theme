@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AIFIRSTSAAS_THEME_VERSION', '1.0.0' );
+define( 'AIFIRSTSAAS_THEME_VERSION', '1.0.1' );
 
 if ( ! function_exists( 'aifirstsaas_setup' ) ) {
 	/**
@@ -64,10 +64,10 @@ add_action( 'after_setup_theme', 'aifirstsaas_setup' );
  * @return void
  */
 function aifirstsaas_enqueue_assets() {
-	// Inter (shared handle with the plugin).
+	// Inter + Space Grotesk (wordmark font from the Stack Logo System).
 	wp_enqueue_style(
 		'aifirst-inter',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap',
 		array(),
 		null
 	);
@@ -212,6 +212,33 @@ function aifirstsaas_social_links() {
 			'svg'   => '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36ZM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Zm0 5.66A9.9 9.9 0 0 1 13.9 20h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg>',
 		),
 	);
+}
+
+/**
+ * Stacked-cards logo mark (SVG). Uses CSS custom properties for fills
+ * so dark-mode inverts automatically via the --logo-* tokens.
+ *
+ * @since 1.0.1
+ * @param int $size Width/height in px (default 28 for the header).
+ * @return string Inline SVG markup.
+ */
+function aifirstsaas_logo_mark( $size = 28 ) {
+	return '<svg class="aifirst-logo-mark" width="' . (int) $size . '" height="' . (int) $size . '" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+		. '<rect x="8" y="46" width="52" height="26" rx="7" fill="var(--logo-card-bottom)"/>'
+		. '<rect x="14" y="32" width="52" height="26" rx="7" fill="var(--logo-card-middle)"/>'
+		. '<rect x="20" y="18" width="52" height="26" rx="7" fill="var(--logo-card-top)"/>'
+		. '<path d="M60 6 C61.4 18,65 21.6,77 23 C65 24.4,61.4 28,60 40 C58.6 28,55 24.4,43 23 C55 21.6,58.6 18,60 6Z" fill="var(--logo-spark)"/>'
+		. '</svg>';
+}
+
+/**
+ * Styled wordmark "AIFirstSaaS" with the accent span on "First".
+ *
+ * @since 1.0.1
+ * @return string HTML markup.
+ */
+function aifirstsaas_wordmark() {
+	return '<span class="aifirst-wordmark">AI<span class="aifirst-wm-accent">First</span>SaaS</span>';
 }
 
 /**

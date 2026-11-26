@@ -4,7 +4,7 @@ Theme URI:         https://aifirstsaas.com
 Author:            aifirstsaas.com
 Author URI:        https://aifirstsaas.com
 Description:       Classic PHP theme for aifirstsaas.com. Provides the chrome (header, mobile drawer, footer, typography and color tokens) around the AI First SaaS Directory plugin, which ships every content template. Design tokens match the canonical design file so plugin templates render without color overrides.
-Version:           1.0.0
+Version:           1.0.1
 Requires at least: 6.4
 Tested up to:      6.6
 Requires PHP:      8.1
@@ -32,6 +32,13 @@ Tags:              custom-menu, custom-logo, featured-images, threaded-comments,
 	--sub:    #6B6B65;
 	--border: #E8E6E0;
 	--accent: #2563EB;
+
+	/* Logo / brand tokens (Stack Logo System). */
+	--logo-card-bottom: #CBD5E1;
+	--logo-card-middle: #94A3B8;
+	--logo-card-top:    #0B1120;
+	--logo-spark:       #06B6D4;
+	--logo-wm-accent:   #4F46E5;
 
 	/* --aif-* family (plugin). Mirrors the bare names. */
 	--aif-bg:          #FAFAF8;
@@ -74,6 +81,12 @@ Tags:              custom-menu, custom-logo, featured-images, threaded-comments,
 		--aif-border:      #33322D;
 		--aif-accent:      #2563EB;
 		--aif-accent-weak: #1E2A5C;
+
+		--logo-card-bottom: #1E293B;
+		--logo-card-middle: #334155;
+		--logo-card-top:    #FFFFFF;
+		--logo-spark:       #06B6D4;
+		--logo-wm-accent:   #06B6D4;
 	}
 }
 
@@ -94,6 +107,12 @@ Tags:              custom-menu, custom-logo, featured-images, threaded-comments,
 	--aif-border:      #33322D;
 	--aif-accent:      #2563EB;
 	--aif-accent-weak: #1E2A5C;
+
+	--logo-card-bottom: #1E293B;
+	--logo-card-middle: #334155;
+	--logo-card-top:    #FFFFFF;
+	--logo-spark:       #06B6D4;
+	--logo-wm-accent:   #06B6D4;
 }
 
 /* -------------------------------------------------------------------------- *
@@ -177,10 +196,10 @@ button {
 	flex: 0 0 auto;
 }
 .aifirst-brand a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	color: var(--text);
-	font-weight: 700;
-	font-size: 18px;
-	letter-spacing: -0.02em;
 	text-decoration: none;
 }
 .aifirst-brand a:hover { text-decoration: none; }
@@ -188,6 +207,18 @@ button {
 	max-height: 32px;
 	width: auto;
 }
+
+.aifirst-logo-mark { flex-shrink: 0; }
+
+.aifirst-wordmark {
+	font-family: 'Space Grotesk', system-ui, sans-serif;
+	font-weight: 700;
+	font-size: 18px;
+	letter-spacing: -0.03em;
+	line-height: 1;
+	color: var(--text);
+}
+.aifirst-wm-accent { color: var(--logo-wm-accent); }
 
 .aifirst-topbar-right {
 	display: flex;
@@ -506,12 +537,21 @@ body.has-theme-header-toggle > .aifirst-theme-toggle { display: none; }
 	text-decoration: none;
 }
 .aifirst-footer-col ul a:hover { color: var(--accent); }
-.aifirst-footer-brand .aifirst-footer-wordmark {
-	font-weight: 800;
-	font-size: 18px;
-	color: var(--text);
+.aifirst-footer-brand .aifirst-footer-logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	margin-bottom: 8px;
-	display: inline-block;
+	text-decoration: none;
+}
+.aifirst-footer-brand .aifirst-footer-logo:hover { text-decoration: none; }
+.aifirst-footer-brand .aifirst-footer-wordmark {
+	font-family: 'Space Grotesk', system-ui, sans-serif;
+	font-weight: 700;
+	font-size: 18px;
+	letter-spacing: -0.03em;
+	color: var(--text);
+	line-height: 1;
 }
 .aifirst-footer-brand .aifirst-footer-tagline {
 	font-size: 12.5px;

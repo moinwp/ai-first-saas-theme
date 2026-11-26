@@ -1,6 +1,6 @@
 # AI First SaaS — theme notes
 
-Version 1.0.0. Pairs with `aifirstsaas-directory` plugin v0.8.3.
+Version 1.0.1. Pairs with `aifirstsaas-directory` plugin v0.8.3.
 
 ## What this theme ships
 
@@ -81,6 +81,19 @@ templates:
 `compare.php`, `stack.php`, `submit.php`, `changelog.php`,
 `features-index.php`, `front-page.php`. All routed by
 `AIFirst_Public::template_include`.
+
+## Stack Logo System (v1.0.1)
+
+The header and footer now render the stacked-cards logo mark (inline
+SVG with CSS-variable fills) + a styled "AIFirstSaaS" wordmark in
+Space Grotesk 700. The word "First" is colored with `--logo-wm-accent`
+(Indigo `#4F46E5` light, Cyan `#06B6D4` dark). The mark's three card
+layers and four-point spark also swap via `--logo-card-*` / `--logo-spark`
+tokens, matching the brand sheet's "Reversed" lockup in dark mode.
+
+Custom-logo override still works: when a custom logo is uploaded in
+Appearance → Customize, the SVG mark + wordmark are replaced entirely
+by the uploaded image.
 
 ## Deferred
 

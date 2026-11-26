@@ -31,7 +31,8 @@ defined( 'ABSPATH' ) || exit;
 				<?php the_custom_logo(); ?>
 			<?php else : ?>
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-					<span class="aifirst-wordmark">aifirstsaas</span>
+					<?php echo aifirstsaas_logo_mark( 28 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<?php echo aifirstsaas_wordmark(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</a>
 			<?php endif; ?>
 		</div>

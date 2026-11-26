@@ -33,7 +33,10 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="aifirst-footer-grid">
 			<div class="aifirst-footer-col aifirst-footer-brand">
-				<a class="aifirst-footer-wordmark" href="<?php echo esc_url( home_url( '/' ) ); ?>">aifirstsaas</a>
+				<a class="aifirst-footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<?php echo aifirstsaas_logo_mark( 28 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<?php echo aifirstsaas_wordmark(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				</a>
 				<div class="aifirst-footer-tagline"><?php esc_html_e( 'Verified AI feature data for every SaaS tool your team uses.', 'aifirstsaas' ); ?></div>
 			</div>
 
