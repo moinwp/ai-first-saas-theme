@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit;
 				<h2 class="aifirst-footer-heading"><?php esc_html_e( 'Explore', 'aifirstsaas' ); ?></h2>
 				<?php aifirstsaas_footer_menu( 'footer-explore', array(
 					array( 'label' => __( 'Tools', 'aifirstsaas' ),      'url' => home_url( '/tools/' ) ),
-					array( 'label' => __( 'Categories', 'aifirstsaas' ), 'url' => home_url( '/tools/' ) ),
+					array( 'label' => __( 'Categories', 'aifirstsaas' ), 'url' => home_url( '/categories/' ) ),
 					array( 'label' => __( 'Features', 'aifirstsaas' ),   'url' => home_url( '/features/' ) ),
 					array( 'label' => __( 'Compare', 'aifirstsaas' ),    'url' => home_url( '/compare/' ) ),
 				) ); ?>

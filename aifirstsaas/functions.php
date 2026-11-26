@@ -168,7 +168,7 @@ add_filter( 'body_class', 'aifirstsaas_body_classes' );
 function aifirstsaas_default_primary_nav() {
 	$items = array(
 		'tools'      => array( 'label' => __( 'Tools', 'aifirstsaas' ),      'url' => home_url( '/tools/' ) ),
-		'categories' => array( 'label' => __( 'Categories', 'aifirstsaas' ), 'url' => home_url( '/tools/' ) ),
+		'categories' => array( 'label' => __( 'Categories', 'aifirstsaas' ), 'url' => home_url( '/categories/' ) ),
 		'features'   => array( 'label' => __( 'Features', 'aifirstsaas' ),   'url' => home_url( '/features/' ) ),
 		'compare'    => array( 'label' => __( 'Compare', 'aifirstsaas' ),    'url' => home_url( '/compare/' ) ),
 		'radar'      => array( 'label' => __( 'Radar', 'aifirstsaas' ),      'url' => home_url( '/changelog/' ) ),
